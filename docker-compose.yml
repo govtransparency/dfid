@@ -1,0 +1,27 @@
+version: '2'
+services:
+  dw-database:
+    image: postgres:9.4-alpine
+    container_name: dw-database
+    networks:
+      - dw-network
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=digiwhist
+      - POSTGRES_PASSWORD=digiwhist
+      - POSTGRES_USER=digiwhist
+  dw-rabbit:
+    image: rabbitmq:3.6-management-alpine
+    container_name: dw-rabbit
+    networks:
+      - dw-network
+    ports:
+      - "127.0.0.1:15672:15672"
+      - "127.0.0.1:5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=digiwhist
+      - RABBITMQ_DEFAULT_PASS=digiwhist
+networks:
+  dw-network:
+    driver: bridge
